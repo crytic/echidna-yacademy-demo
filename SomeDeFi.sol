@@ -69,9 +69,9 @@ contract ERC20 {
 contract SomeDefi is ERC20 {
   ERC20 public token;
 
-  constructor() public ERC20(0) {}
+  constructor() ERC20(0) {}
 
-  function mintShares(uint256 tokens) public {
+  function mintShares(uint256 tokens) internal {
       token.transferFrom(msg.sender, address(this), tokens); 
       if (totalSupply() == 0)
           _mint(msg.sender, tokens);
@@ -79,7 +79,7 @@ contract SomeDefi is ERC20 {
           _mint(msg.sender, 10 ** 18 * tokens / totalSupply()); 
   }
 
-  function withdrawShares(uint256 shares) public {
+  function withdrawShares(uint256 shares) internal {
       require(sharesOf(msg.sender) >= shares);
       uint256 oldTotalSupply = totalSupply();
       _burn(msg.sender, shares);
@@ -90,13 +90,13 @@ contract SomeDefi is ERC20 {
           token.transfer(msg.sender, shares * totalSupply() / 10 ** 18);
   }
 
-  function sharesOf(address user) public returns (uint256) {
+  function sharesOf(address user) internal view returns (uint256) {
       return balanceOf(user); 
   }
 }
 
 contract TestSomeDefi is SomeDefi {
-  constructor() public {
+  constructor() {
       token = new ERC20(type(uint256).max);
       token.transfer(address(0x10000), type(uint256).max / 2);
       token.transfer(address(0x20000), type(uint256).max / 2);

@@ -1,4 +1,4 @@
-# Fuzz tests explained during the Spearbit presentation
+# Fuzz tests explained during the yAcademy presentation
 
 ## Before starting
 
