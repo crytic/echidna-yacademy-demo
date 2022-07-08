@@ -103,10 +103,13 @@ contract TestSomeDefi is SomeDefi {
   }
 
   function testMintShares() public {
+      // pre-conditions
       require(totalSupply() == 0);
       uint256 oldBalance = token.balanceOf(msg.sender);
-      assert(oldBalance >= 1000);
+      require(oldBalance >= 1000);
+      // action
       mintShares(1000);
+      // post-conditions
       assert(sharesOf(msg.sender) == 1000);
       assert(token.balanceOf(msg.sender) == oldBalance - 1000);
   }
@@ -114,9 +117,9 @@ contract TestSomeDefi is SomeDefi {
   function testWithdrawShares() public {
       require(totalSupply() == 0);
       uint256 oldBalance = token.balanceOf(msg.sender);
-      assert(oldBalance >= 1000);
+      require(oldBalance >= 1000);
       mintShares(1000);
-      assert(sharesOf(msg.sender) == 1000);
+      require(sharesOf(msg.sender) == 1000);
       assert(token.balanceOf(msg.sender) == oldBalance - 1000);
       withdrawShares(1000);
       assert(token.balanceOf(msg.sender) == oldBalance);
