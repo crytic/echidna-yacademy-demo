@@ -103,13 +103,10 @@ contract TestSomeDefi is SomeDefi {
   }
 
   function testMintShares() public {
-      // pre-conditions
       require(totalSupply() == 0);
       uint256 oldBalance = token.balanceOf(msg.sender);
       require(oldBalance >= 1000);
-      // action
       mintShares(1000);
-      // post-conditions
       assert(sharesOf(msg.sender) == 1000);
       assert(token.balanceOf(msg.sender) == oldBalance - 1000);
   }
